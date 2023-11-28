@@ -1,0 +1,1 @@
+/home/noskova/www/bitrix/modules/sale/install/components/bitrix/sale.personal.order/templates/.default/bitrix//home/noskova/www/bitrix/components/bitrix/sale.personal.order/templates/.default/bitrix/
