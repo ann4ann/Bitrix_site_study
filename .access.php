@@ -1,4 +1,6 @@
 <?
+$PERM["bitrix"]["*"]="D";
+$PERM["announcement"]["8"]="X";
 $PERM["seller-account"]["7"]="W";
 $PERM["seller-account"]["*"]="D";
 $PERM["buyer-account"]["6"]="W";
