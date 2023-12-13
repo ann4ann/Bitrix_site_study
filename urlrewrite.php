@@ -16,7 +16,7 @@ $arUrlRewrite=array (
     'PATH' => '/desktop_app/router.php',
     'SORT' => 100,
   ),
-  10 => 
+  17 => 
   array (
     'CONDITION' => '#^/seller-account/my-ads/#',
     'RULE' => '',
@@ -32,7 +32,7 @@ $arUrlRewrite=array (
     'PATH' => '/desktop_app/router.php',
     'SORT' => 100,
   ),
-  9 => 
+  14 => 
   array (
     'CONDITION' => '#^/about/vacancies/#',
     'RULE' => '',
@@ -40,7 +40,7 @@ $arUrlRewrite=array (
     'PATH' => '/about/vacancies/index.php',
     'SORT' => 100,
   ),
-  6 => 
+  16 => 
   array (
     'CONDITION' => '#^/announcement/#',
     'RULE' => '',
@@ -48,20 +48,20 @@ $arUrlRewrite=array (
     'PATH' => '/announcement/index.php',
     'SORT' => 100,
   ),
-  8 => 
-  array (
-    'CONDITION' => '#^/about/news/#',
-    'RULE' => '',
-    'ID' => 'bitrix:news',
-    'PATH' => '/about/news/index.php',
-    'SORT' => 100,
-  ),
-  11 => 
+  13 => 
   array (
     'CONDITION' => '#^/references/#',
     'RULE' => '',
     'ID' => 'bitrix:news',
     'PATH' => '/references/index.php',
+    'SORT' => 100,
+  ),
+  15 => 
+  array (
+    'CONDITION' => '#^/about/news/#',
+    'RULE' => '',
+    'ID' => 'bitrix:news',
+    'PATH' => '/about/news/index.php',
     'SORT' => 100,
   ),
   0 => 
