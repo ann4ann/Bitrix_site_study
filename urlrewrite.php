@@ -56,7 +56,7 @@ $arUrlRewrite=array (
     'PATH' => '/references/index.php',
     'SORT' => 100,
   ),
-  15 => 
+  19 => 
   array (
     'CONDITION' => '#^/about/news/#',
     'RULE' => '',
