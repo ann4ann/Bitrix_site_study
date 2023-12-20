@@ -13,12 +13,18 @@
 $this->setFrameMode(true);
 ?>
 
-<!-- <pre><?//var_export($arResult)?></pre> -->
+<!--
+		<pre><?//var_export($arResult["DISPLAY_PROPERTIES"]["IMGS"]["FILE_VALUE"]["SRC"])?></pre>
+-->
+<?
+$imgs = $arResult["DISPLAY_PROPERTIES"]["IMGS"]["FILE_VALUE"];
+?>
 
 <div 
 	class="site-wrap"
 >
 	<!-- top IMG -->
+
 	<div 
 		class="site-blocks-cover overlay" 
 		style="background-image: url(<?=
@@ -53,18 +59,25 @@ $this->setFrameMode(true);
 					<!-- Галерея изображений -->
 					<div class="mb-5">
 						<div class="slide-one-item home-slider owl-carousel">
-						<?foreach($arResult["DISPLAY_PROPERTIES"]["IMGS"]["FILE_VALUE"] as $img):?>
-							<div>
-								<?if (is_array($img)):?>
-									<img src="<?=$img["SRC"]?>" alt="<?=$img["ORIGINAL_NAME"]?>" class="img-fluid">
-								<?endif?>
-							</div>
-						<?endforeach?>
-						<?if (!$arResult["DISPLAY_PROPERTIES"]["IMGS"]["FILE_VALUE"][0]):?>
-							<img src="<?=$arResult["PREVIEW_PICTURE"]["SRC"]?>" alt="<?=$arResult["NAME"]?>" class="img-fluid">
+						<? if( !is_null($imgs) ):
+
+							if($imgs["SRC"]):?>
+								<img src="<?=$imgs["SRC"]?>" alt="<?=$imgs["ORIGINAL_NAME"]?>" class="img-fluid">
+							<?elseif ( count($imgs) > 0 ):
+								foreach($imgs as $img):?>
+									<div>
+										<?if (is_array($img)):?>
+											<img src="<?=$img["SRC"]?>" alt="<?=$img["ORIGINAL_NAME"]?>" class="img-fluid">
+										<?endif?>
+									</div>
+								<?endforeach?>
+							<?endif?>
+
+						<?else:?>
+								<img src="<?=$arResult["PREVIEW_PICTURE"]["SRC"]?>" alt="<?=$arResult["NAME"]?>" class="img-fluid">
 						<?endif?>
 						</div>
-					</div>
+					</div> <!-- Галерея изображений -->
 
 					<div class="bg-white">
 						<!-- info 1 -->
@@ -122,23 +135,43 @@ $this->setFrameMode(true);
 						<p><?echo $arResult["DETAIL_TEXT"]?></p>
 
 						<!-- Галерея изображений 2 -->
-						<?if($arResult["DISPLAY_PROPERTIES"]["IMGS"]):?>
-							<div class="row mt-5">
-								<div class="col-12">
-									<h2 class="h4 text-black mb-3">Галерея изображений</h2>
-								</div>
+						<div class="row mt-5">
+						<? if( !is_null($imgs) ): ?>
+							<div class="col-12">
+								<h2 class="h4 text-black mb-3">Галерея изображений</h2>
+							</div>
 
-								<?foreach($arResult["DISPLAY_PROPERTIES"]["IMGS"]["FILE_VALUE"] as $img):?>
+							<?if($imgs["SRC"]):?>
+								<div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+									<a href="<?=$imgs["SRC"]?>" class="image-popup gal-item">
+										<img src="<?=$imgs["SRC"]?>" alt="<?=$imgs["ORIGINAL_NAME"]?>" class="img-fluid">
+									</a>	
+								</div>
+							<?elseif ( count($imgs) > 0 ):
+								foreach($imgs as $img):?>
 									<div class="col-sm-6 col-md-4 col-lg-3 mb-4">
 										<?if (is_array($img)):?>
 											<a href="<?=$img["SRC"]?>" class="image-popup gal-item">
 												<img src="<?=$img["SRC"]?>" alt="<?=$img["ORIGINAL_NAME"]?>" class="img-fluid">
-											</a>
+											</a>											
 										<?endif?>
 									</div>
 								<?endforeach?>
+							<?endif?>
+											
+						<?else:?>
+							<div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+								<a href="<?=$arResult["PREVIEW_PICTURE"]["SRC"]?>" class="image-popup gal-item">
+									<img 
+									src="<?=$arResult["PREVIEW_PICTURE"]["SRC"]?>" 
+									alt="<?=$arResult["PREVIEW_PICTURE"]["ORIGINAL_NAME"]?>" 
+									class="img-fluid">
+								</a>
 							</div>
 						<?endif?>
+						</div> <!-- Галерея изображений -->
+
+
 					</div>
 				</div>
 				<div class="col-lg-4 pl-md-5">
