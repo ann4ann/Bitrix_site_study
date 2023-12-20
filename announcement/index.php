@@ -100,6 +100,7 @@ $APPLICATION->SetTitle("Объявления");
 		"DISPLAY_PICTURE" => "Y",
 		"DISPLAY_PREVIEW_TEXT" => "Y",
 		"USE_SHARE" => "N",
+		"PAGE_TITLE" => "New properties for you",
 		"SEF_URL_TEMPLATES" => array(
 			"news" => "",
 			"section" => "",

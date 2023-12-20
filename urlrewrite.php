@@ -16,7 +16,7 @@ $arUrlRewrite=array (
     'PATH' => '/desktop_app/router.php',
     'SORT' => 100,
   ),
-  17 => 
+  22 => 
   array (
     'CONDITION' => '#^/seller-account/my-ads/#',
     'RULE' => '',
@@ -40,7 +40,7 @@ $arUrlRewrite=array (
     'PATH' => '/about/vacancies/index.php',
     'SORT' => 100,
   ),
-  18 => 
+  21 => 
   array (
     'CONDITION' => '#^/announcement/#',
     'RULE' => '',
