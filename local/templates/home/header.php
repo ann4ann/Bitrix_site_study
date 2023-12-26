@@ -4,6 +4,8 @@
   Lc::loadMessages(__FILE__);
 ?>
 
+<? global $USER; ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -58,6 +60,7 @@
       <!-- .site-mobile-menu -->
 
       <div class="border-bottom bg-white top-bar">
+
         <div class="container">
           <div class="row align-items-center">
             <div class="col-6 col-md-6">
@@ -84,7 +87,23 @@
                 );?>
               </p>
             </div>
+
             <div class="col-6 col-md-6 text-right">
+              <!-- Войти/выйти -->
+              <? if ($USER->IsAuthorized()):?>
+                <a href="<?=$APPLICATION->GetCurPageParam("logout=yes&".bitrix_sessid_get(), array(
+                        "login",
+                        "logout",
+                        "register",
+                        "forgot_password",
+                        "change_password",
+                        ))
+                        ?>"
+                  >Выйти</a>
+              <? else: ?>
+                <a href="<?SITE_TEMPLATE_PATH?>/user/login.php">Войти</a>
+              <?endif?>
+              
               <?$APPLICATION->IncludeComponent(
                 "bitrix:main.include",
                 "",

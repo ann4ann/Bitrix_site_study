@@ -2,10 +2,23 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetPageProperty("title", "Тестовая страница");
 $APPLICATION->SetTitle("Тест");
-?><?$APPLICATION->IncludeComponent("bitrix:breadcrumb", "breadcrumbs", Array(
-	"PATH" => "",	// Путь, для которого будет построена навигационная цепочка (по умолчанию, текущий путь)
-		"SITE_ID" => "s1",	// Cайт (устанавливается в случае многосайтовой версии, когда DOCUMENT_ROOT у сайтов разный)
-		"START_FROM" => "0",	// Номер пункта, начиная с которого будет построена навигационная цепочка
-	),
-	false
-);?><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+?><?$APPLICATION->IncludeComponent(
+	"bitrix:main.auth.form",
+	"auth_home",
+	Array(
+		"AUTH_FORGOT_PASSWORD_URL" => "/user/",
+		"AUTH_REGISTER_URL" => "/user/registration.php",
+		"AUTH_SUCCESS_URL" => "/seller-account/"
+	)
+);?> <br>
+ <?$APPLICATION->IncludeComponent(
+	"bitrix:system.auth.form",
+	"auth_home",
+	Array(
+		"FORGOT_PASSWORD_URL" => "/user/",
+		"PROFILE_URL" => "/seller-account/",
+		"REGISTER_URL" => "/user/registration.php",
+		"SHOW_ERRORS" => "N"
+	)
+);?><br>
+ <br><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

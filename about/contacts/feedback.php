@@ -9,23 +9,23 @@ $APPLICATION->SetTitle("Обратная связь");
 
 			<!-- FORM -->
 			<?$APPLICATION->IncludeComponent(
-	"bitrix:main.feedback", 
-	"feedback_form", 
-	array(
-		"EMAIL_TO" => "prograkk29@gmail.com",
-		"EVENT_MESSAGE_ID" => array(
-			0 => "7",
-		),
-		"OK_TEXT" => "Спасибо, ваше сообщение принято.",
-		"REQUIRED_FIELDS" => array(
-			0 => "EMAIL",
-			1 => "MESSAGE",
-		),
-		"USE_CAPTCHA" => "Y",
-		"COMPONENT_TEMPLATE" => "feedback_form"
-	),
-	false
-);?> 
+				"bitrix:main.feedback", 
+				"feedback_form", 
+				array(
+					"EMAIL_TO" => "prograkk29@gmail.com",
+					"EVENT_MESSAGE_ID" => array(
+						0 => "7",
+					),
+					"OK_TEXT" => "Спасибо, ваше сообщение принято.",
+					"REQUIRED_FIELDS" => array(
+						0 => "EMAIL",
+						1 => "MESSAGE",
+					),
+					"USE_CAPTCHA" => "Y",
+					"COMPONENT_TEMPLATE" => "feedback_form"
+				),
+				false
+			);?> 
 
 			<!-- CONTACT INFO -->
 			<?$APPLICATION->IncludeComponent(
