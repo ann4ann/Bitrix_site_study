@@ -386,9 +386,9 @@ class AgentsList extends CBitrixComponent implements Controllerable, Errorable
 
     #endregion
 
-    #region 2 метода для AJAX (не дописаны)
+    #region 2 метода для AJAX
 
-    // Далее код для ajax, к нему можно вернуться после внедрения верски и js
+    // Далее код для ajax, к нему можно вернуться после внедрения верстки и js
     /**
      * Конфигурация событий для ajax
      */

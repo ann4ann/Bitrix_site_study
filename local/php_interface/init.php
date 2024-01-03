@@ -11,11 +11,14 @@ CModule::AddAutoloadClasses(
 		)
 );
 
+\Bitrix\Main\Loader::includeModule('highloadblock');
+
 AddEventHandler("main", "OnAfterUserRegister", Array("UserRegister", "AfterUserRegister"));
+//AddEventHandler("", "EstateAgentsOnAfterUpdate", Array("HLBlockChange", "OnChange"));
 
 $eventManager = \Bitrix\Main\EventManager::getInstance();
-$eventManager->addEventHandler("main", "EstateAgentsOnAfterAdd", Array("HLBlockChange", "OnChange"));
-$eventManager->addEventHandler("main", "EstateAgentsOnAfterUpdate", Array("HLBlockChange", "OnChange"));
-$eventManager->addEventHandler("main", "EstateAgentsOnAfterDelete", Array("HLBlockChange", "OnChange"));
+$eventManager->addEventHandler("", "EstateAgentsOnAfterUpdate", Array("HLBlockChange", "OnChange"));
+$eventManager->addEventHandler("", "EstateAgentsOnAfterAdd", Array("HLBlockChange", "OnChange"));
+$eventManager->addEventHandler("", "EstateAgentsOnAfterDelete", Array("HLBlockChange", "OnChange"));
 
 ?>
