@@ -1,7 +1,12 @@
 <?
+
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+
 $APPLICATION->SetTitle("Личный кабинет покупателя");
-?><?$APPLICATION->IncludeComponent(
+
+?>
+
+<?$APPLICATION->IncludeComponent(
 	"bitrix:main.profile", 
 	".default", 
 	array(
@@ -14,8 +19,11 @@ $APPLICATION->SetTitle("Личный кабинет покупателя");
 		"COMPONENT_TEMPLATE" => ".default"
 	),
 	false
-);?><br>
- <?$APPLICATION->IncludeComponent(
+);?>
+
+<br>
+
+<?$APPLICATION->IncludeComponent(
 	"bitrix:subscribe.form", 
 	".default", 
 	array(
@@ -27,4 +35,8 @@ $APPLICATION->SetTitle("Личный кабинет покупателя");
 		"COMPONENT_TEMPLATE" => ".default"
 	),
 	false
-);?><br><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+);?>
+
+<br>
+
+<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

@@ -1,21 +1,21 @@
 <?php
-if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED!==true)
-{
-	die();
-}
+	if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED!==true)
+	{
+		die();
+	}
 
-use \Bitrix\Main\Localization\Loc;
-Loc::loadMessages(__FILE__);
+	use \Bitrix\Main\Localization\Loc;
+	Loc::loadMessages(__FILE__);
 
-\Bitrix\Main\Page\Asset::getInstance()->addCss(
-	'/bitrix/css/main/system.auth/flat/style.css'
-);
+	\Bitrix\Main\Page\Asset::getInstance()->addCss(
+		'/bitrix/css/main/system.auth/flat/style.css'
+	);
 
-if ($arResult['AUTHORIZED'])
-{
-	echo Loc::getMessage('MAIN_AUTH_FORM_SUCCESS');
-	return;
-}
+	if ($arResult['AUTHORIZED'])
+	{
+		echo Loc::getMessage('MAIN_AUTH_FORM_SUCCESS');
+		return;
+	}
 ?>
 
 <div class="site-section">
@@ -33,6 +33,7 @@ if ($arResult['AUTHORIZED'])
 
 	<h3><?= Loc::getMessage('MAIN_AUTH_FORM_HEADER');?></h3>
 
+	// Include bitrix:socserv.auth.form - компонент авторизации через соц.сети
 	<?if ($arResult['AUTH_SERVICES']):?>
 		<?$APPLICATION->IncludeComponent('bitrix:socserv.auth.form',
 			'flat',
@@ -112,10 +113,12 @@ if ($arResult['AUTHORIZED'])
 			</div>
 		<?endif?>
 
-		<!-- submit btn -->
+		<!-- Кнопка submit -->
 		<div class="row form-group">
 			<div class="col-md-12">
-				<input type="submit" class="btn btn-primary  py-2 px-4 rounded-0" name="<?= $arResult['FIELDS']['action'];?>" value="<?= Loc::getMessage('MAIN_AUTH_FORM_FIELD_SUBMIT');?>" />
+				<input type="submit" class="btn btn-primary  py-2 px-4 rounded-0" 
+							 name="<?= $arResult['FIELDS']['action'];?>"
+							 value="<?= Loc::getMessage('MAIN_AUTH_FORM_FIELD_SUBMIT');?>" />
 			</div>
 		</div>
 		

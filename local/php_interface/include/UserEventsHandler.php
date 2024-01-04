@@ -1,6 +1,6 @@
 <?
 
-class UserRegister
+class UserEvents
 {
 	public static function AfterUserRegister(&$arFields)
 	{
@@ -30,8 +30,16 @@ class UserRegister
         CUser::SetUserGroup($userId, $arGroups);
       }
       else {}
+
+      LocalRedirect('/');
     }
   } 
+
+	public static function AfterUserLogout(&$arFields)
+	{
+      LocalRedirect('/');
+  } 
+
 };
 
 ?>

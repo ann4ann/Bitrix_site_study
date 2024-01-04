@@ -17,22 +17,16 @@ $APPLICATION->SetTitle("Агенты");
 // echo '</pre>';
 
 
-?>
-
-
-<?$APPLICATION->IncludeComponent(
-	"mcart:agents.list", 
-	".default", 
-	array(
-		"HLBLOCK_TNAME" => "estate_agents",
-		"PAGE_ELEMENTS_COUNT" => "10",
+?><?$APPLICATION->IncludeComponent(
+	"mcart:agents.list",
+	"",
+	Array(
 		"CACHE_TIME" => "36000",
-		"COMPONENT_TEMPLATE" => ".default",
-		"CACHE_TYPE" => "A"
-	),
-	false
+		"CACHE_TYPE" => "A",
+		"HLBLOCK_TNAME" => "estate_agents",
+		"PAGE_ELEMENTS_COUNT" => "4"
+	)
 );?>
-
 <!-- 
 "CACHE_TIME" => "36000",
 		"CACHE_TYPE" => "A",
@@ -50,7 +44,4 @@ $APPLICATION->SetTitle("Агенты");
 		"PAGE_ELEMENTS_COUNT" => "1",
 		"SET_STATUS_404" => "N",
 		"SHOW_404" => "N",
-		"COMPONENT_TEMPLATE" => ".default" -->
-
-
-<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+		"COMPONENT_TEMPLATE" => ".default" --><?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

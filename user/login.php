@@ -1,7 +1,9 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+
 $APPLICATION->SetPageProperty("title", "Тестовая страница");
 $APPLICATION->SetTitle("Тест");
+
 ?>
 
 <? 
@@ -28,7 +30,7 @@ $APPLICATION->SetTitle("Тест");
 		//var_dump($profile_URL)
 ?>
 
-<?$APPLICATION->IncludeComponent("bitrix:system.auth.form", "auth_home", Array(
+<? $APPLICATION->IncludeComponent( "bitrix:system.auth.form", "auth_home", Array(
 	"FORGOT_PASSWORD_URL" => "/user/",	// Страница забытого пароля
 		"PROFILE_URL" => $profile_URL,	// Страница профиля
 		"REGISTER_URL" => "/user/registration.php",	// Страница регистрации
