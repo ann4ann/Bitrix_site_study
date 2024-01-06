@@ -90,14 +90,15 @@
 
             <div class="col-6 col-md-6 text-right">
               <!-- Войти/выйти -->
-              <? if ($USER->IsAuthorized()):?>
-                <a href="<?=$APPLICATION->GetCurPageParam("logout=yes&".bitrix_sessid_get(), array(
-                        "login",
-                        "logout",
-                        "register",
-                        "forgot_password",
-                        "change_password",
-                        ))
+              <? if ( $USER->IsAuthorized() ): ?>
+                <a href="<?=$APPLICATION->GetCurPageParam ("logout=yes&".bitrix_sessid_get(),
+                                                           array(
+                                                                "login",
+                                                                "logout",
+                                                                "register",
+                                                                "forgot_password",
+                                                                "change_password",
+                                                                ))
                         ?>"
                   >Выйти</a>
               <? else: ?>

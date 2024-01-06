@@ -7,7 +7,8 @@ error_reporting(E_ALL);
 
 ini_set('display_errors', '1');
 
-#region Bitrix includes
+#region Bitrix use
+
 use \Bitrix\Main\Errorable;
 use \Bitrix\Main\Engine\Contract\Controllerable;
 
@@ -23,6 +24,7 @@ use \Bitrix\Main\Loader;
 use \Bitrix\Main\Localization\Loc;
 use \Bitrix\Highloadblock\HighloadBlockTable;
 use \Bitrix\Main\Engine\ActionFilter;
+
 #endregion
 
 class AgentsList extends CBitrixComponent implements Controllerable, Errorable
@@ -162,59 +164,53 @@ class AgentsList extends CBitrixComponent implements Controllerable, Errorable
         $bCacheExists = $this->cache->initCache( $this->arParams["CACHE_TIME"],
                                                  $this->cacheKey,
                                                  $this->cachePatch);
-
-        // echo '<pre>';
-        // var_export($bCacheExists);
-        // echo '</pre>';
-
         if ($bCacheExists)
         { // если кэш есть
+            // Загрузим настройки пагинации (можно вынести из if, а также из getAgents, чтобы не дублировать)
+            $uriPageSize = $this->arParams['PAGE_ELEMENTS_COUNT'];
+            $uriNav = new \Bitrix\Main\UI\PageNavigation("nav-agents");
+            $uriNav ->allowAllRecords(true)
+                    ->setPageSize($uriPageSize)
+                    ->initFromUri();
+            $currentPageNum = $uriNav->getCurrentPage() ?? 0;
+            //unset($uriNav);
+
+            // echo '<pre>';
+            // var_export($uriNav);
+            // echo '</pre>'; 
+
+
             // getVars возвращает PHP переменные сохраненные в кэше
             $this->arResult =  $this->cache->getVars();
+
+            $cacheNav = $this->arResult['AGENTS']['NAV_OBJECT'];
+            $cachePageSize = $cacheNav->getPageSize();
+            $cacheCurrentPageNum = $cacheNav->getCurrentPage() ?? 0;
+            //unset($cacheNav);
+
+            $bNavChanged = ($uriPageSize != $cachePageSize) || ($currentPageNum != $cacheCurrentPageNum);
+
+            // echo '<pre>';
+            // var_export($bNavChanged);
+            // echo '</pre>'; 
+
+            // Если есть переключение на другую страницу или изменено число страниц, но нет изменений в HLBlock-е, все равно обновим кэш 
+            // (потому что в кэше не все данные таблицы из БД, а только конкретной страницы)
+            if ($bNavChanged)
+            {
+                $this->updateArResultAndCache();
+            }
         } 
         else 
         { // если кэша нет, создадим его
-            $bStarted = $this->cache -> startDataCache();
-            if ($bStarted)
-            {
-                $this->taggedCache->startTagCache($this->cachePatch); // старт для тегированного кеша
-
-                $this->arResult = []; // объявим результирующий массив
-    
-                // получить хлблок по TABLE_NAME
-                $arHlblock = self::getHlblockByTableName($this->arParams["HLBLOCK_TNAME"]); 
-    
-                // Название тэга, который поименуем кэш
-                $tagName = 'hlblock_table_name_' . $arHlblock['TABLE_NAME'];
-                // Регистрируем тэг, чтобы сбрасывать кэш только данного тега 
-                //      после событий добавление/изменение/удаление элементов хлблока
-                $this->taggedCache->registerTag($tagName); 
-    
-                // получить FQN класса для работы с хлблоком
-                $entityFQN = self::getEntityDataClassById($arHlblock); 
-    
-                // получить массив со значениями списочного свойства Виды деятельности агентов
-                $arTypeAgents = self::getFieldListValue($arHlblock, 'UF_TYPE_OF_ACTIVITY');
-    
-                // получить массив со списком агентов и объектом для пагинации
-                $agents = $this->getAgents($entityFQN, $arTypeAgents);
-                $this->arResult['AGENTS'] = $agents; 
-    
-                if ($this->cacheInvalid) {
-                    $this->taggedCache->abortTagCache();
-                    $this->cache->abortDataCache();
-                }
-    
-                $this->taggedCache->endTagCache(); // конец области, для тегированого кеша
-                $this->cache->endDataCache($this->arResult); // запись arResult в кеш
-            } 
+            $this->updateArResultAndCache();
         }
 
         /*
          * Получить Избранных агентов для текущего пользователя записать их в ['STAR_AGENTS']
          * Это можно cделать с помощью CUserOptions::GetOption
          */ 
-         $this->arResult['STAR_AGENTS'] = CUserOptions::GetOption(self::category, self::name);
+        $this->arResult['STAR_AGENTS'] = CUserOptions::GetOption(self::category, self::name);
         /*
          * Данного метода нет в документации, код метода и его параметры можно найти в ядре (/bitrix/modules/main/) или в гугле
          * $category - это категория настройки, можете придумать любую, например mcart_agent
@@ -280,6 +276,52 @@ class AgentsList extends CBitrixComponent implements Controllerable, Errorable
 
     #region private functions
 
+    // Запускаем запись в кэш, заполняем пустой arResult и записываем его в тегированный кэш
+    private function updateArResultAndCache(): void
+    {
+        $bStarted = $this->cache -> startDataCache();
+        // echo '<pre>';
+        // var_export($bStarted);
+        // echo '</pre>'; 
+
+        // Если кэш ещё существует (не истёк)
+        // if ($bStarted)
+        // {
+            $this->taggedCache->startTagCache($this->cachePatch); // старт для тегированного кеша
+
+            $this->arResult = []; // объявим результирующий массив
+
+            // получить хлблок по TABLE_NAME
+            $arHlblock = self::getHlblockByTableName($this->arParams["HLBLOCK_TNAME"]); 
+
+            // Название тэга, который поименуем кэш
+            $tagName = 'hlblock_table_name_' . $arHlblock['TABLE_NAME'];
+            // Регистрируем тэг, чтобы сбрасывать кэш только данного тега 
+            //      после событий добавление/изменение/удаление элементов хлблока
+            $this->taggedCache->registerTag($tagName); 
+
+            // получить FQN класса для работы с хлблоком
+            $entityFQN = self::getEntityDataClassById($arHlblock); 
+
+            // получить массив со значениями списочного свойства Виды деятельности агентов
+            $arTypeAgents = self::getFieldListValue($arHlblock, 'UF_TYPE_OF_ACTIVITY');
+
+            // получить массив со списком агентов и объектом для пагинации
+            $agents = $this->getAgents($entityFQN, $arTypeAgents);
+            $this->arResult['AGENTS'] = $agents; 
+
+            if ($this->cacheInvalid) {
+                $this->taggedCache->abortTagCache();
+                $this->cache->abortDataCache();
+            }
+
+            $this->taggedCache->endTagCache(); // конец области, для тегированого кеша
+            $this->cache->endDataCache($this->arResult); // запись arResult в кеш
+        // }
+
+        return;
+    }
+
     /**
      * Метод для получения значений списочного свойства
      * @param array $arHlblock - массив с данными HLблока (нужен ID HLблока)
@@ -329,7 +371,10 @@ class AgentsList extends CBitrixComponent implements Controllerable, Errorable
             ->setPageSize($this->arParams['PAGE_ELEMENTS_COUNT']) //Количество элементов из arParams
             ->initFromUri();
 
-        
+        // echo '<pre>';
+        // var_export($nav);
+        // echo '</pre>'; 
+
         $filter = array("UF_ACTIVITY" => '1');
 
         $rsAgents = $entity::GetList([
@@ -343,7 +388,7 @@ class AgentsList extends CBitrixComponent implements Controllerable, Errorable
             "offset" => $nav->getOffset(),
             "limit" => $nav->getLimit(),
         ]);
-    
+   
         while ( $arAgent = $rsAgents -> fetch() ) {
             /**
              * 1. В свойстве "Вид деятельности" записан ID значения списка.

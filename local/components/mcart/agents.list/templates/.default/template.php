@@ -1,27 +1,27 @@
 <?php
-if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
-    die();
-}
+	if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
+			die();
+	}
 
-/** @var array $arParams */
-/** @var array $arResult */
-/** @global CMain $APPLICATION */
-/** @global CUser $USER */
-/** @global CDatabase $DB */
-/** @var CBitrixComponentTemplate $this */
-/** @var string $templateName */
-/** @var string $templateFile */
-/** @var string $templateFolder */
-/** @var string $componentPath */
-/** @var CBitrixComponent $component */
-$this->setFrameMode(true);
+	/** @var array $arParams */
+	/** @var array $arResult */
+	/** @global CMain $APPLICATION */
+	/** @global CUser $USER */
+	/** @global CDatabase $DB */
+	/** @var CBitrixComponentTemplate $this */
+	/** @var string $templateName */
+	/** @var string $templateFile */
+	/** @var string $templateFolder */
+	/** @var string $componentPath */
+	/** @var CBitrixComponent $component */
+	$this->setFrameMode(true);
 
-use \Bitrix\Main\Localization\Loc as Lc; 
-Lc::loadMessages(__FILE__);
+	use \Bitrix\Main\Localization\Loc as Lc; 
+	Lc::loadMessages(__FILE__);
 
-// echo '<pre>';
-// var_export($arResult['STAR_AGENTS']); // для разработки в конечном коде убрать
-// echo '</pre>';
+	// echo '<pre>';
+	// var_export($arResult['AGENTS']['NAV_OBJECT']); // для разработки в конечном коде убрать
+	// echo '</pre>';
 ?>
 
 
@@ -71,6 +71,7 @@ Lc::loadMessages(__FILE__);
 								</div>
 						</div>
 				</div>
+
 				<?php
 					$isStarred = false;
 
@@ -88,6 +89,7 @@ Lc::loadMessages(__FILE__);
 					// Если Агент в избранном, добавим класс Active
 					$sAddClass = $isStarred ? 'active': '';
 				?>
+
 				<a class="star <?=$sAddClass?>" data-id=<?=$arItem['ID'];?>>
 						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 								<path d="M12 4L14.472 9.26604L20 10.1157L16 14.2124L16.944 20L12 17.266L7.056 20L8 14.2124L4 10.1157L9.528 9.26604L12 4Z" stroke="#95929A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -99,17 +101,15 @@ Lc::loadMessages(__FILE__);
 		</div>
 
 		<?php // Компонент bitrix:main.pagenavigation
-			/*
-			* Для постраничной навигации использовать компонент bitrix:main.pagenavigation
-			*/
 			$APPLICATION->IncludeComponent(
 				"bitrix:main.pagenavigation",
 				"agents_page_nav",
 					array(
-					"NAV_OBJECT" => $arResult['AGENTS']['NAV_OBJECT'],
-					"SEF_MODE" => false,
-					"SHOW_ALWAYS" => true,
-				),
+						"NAV_OBJECT" => $arResult['AGENTS']['NAV_OBJECT'],
+						"SEF_MODE" => false,
+						"SHOW_ALWAYS" => true,
+						"CACHE_TIME" => "36000"
+					),
 				false
 			);
 		?>

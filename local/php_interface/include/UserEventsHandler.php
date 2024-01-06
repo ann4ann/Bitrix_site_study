@@ -20,18 +20,20 @@ class UserEvents
       $curUserRole = $curUserRoleEnum['XML_ID'];
   
       $arGroups = CUser::GetUserGroup($userId);
+      
       // Добавляем пользователя в группу в зав-ти от Роли
       if ($curUserRole == "SELLER") {
         $arGroups[] = 7;
         CUser::SetUserGroup($userId, $arGroups);
+
+        LocalRedirect('/seller-account/');
       }
       elseif ($curUserRole == "BUYER") {
         $arGroups[] = 6;
         CUser::SetUserGroup($userId, $arGroups);
-      }
-      else {}
 
-      LocalRedirect('/');
+        LocalRedirect('/buyer-account/');
+      }
     }
   } 
 
