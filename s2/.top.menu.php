@@ -18,7 +18,7 @@ $aMenuLinks = Array(
 		"Продукция", 
 		SITE_DIR."products/", 
 		Array(), 
-		Array(), 
+		Array("DESCRIPTION"=>"test"), 
 		"" 
 	),
 	Array(

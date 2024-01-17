@@ -88,7 +88,7 @@
             "MENU_CACHE_GET_VARS" => array(
             ),
             "MENU_CACHE_TIME" => "3600",
-            "MENU_CACHE_TYPE" => "N",
+            "MENU_CACHE_TYPE" => "Y",
             "MENU_CACHE_USE_GROUPS" => "Y",
             "ROOT_MENU_TYPE" => "top",
             "USE_EXT" => "Y",
@@ -101,7 +101,7 @@
     <!-- /Верхнее меню -->
 
     <!-- Навигация под верхним меню - Breadcrumbs  -->
-    <? if ($APPLICATION->GetCurDir() != "/s2/"): ?>
+    <? if ($APPLICATION->GetCurPage(false) != "/s2/"): ?>
 
       <?$APPLICATION->IncludeComponent("bitrix:breadcrumb", "breadcrumbs_ex1", Array(
         "PATH" => "",	// Путь, для которого будет построена навигационная цепочка (по умолчанию, текущий путь)
@@ -123,7 +123,7 @@
           <div class="cnt">
 
             <!-- на НЕ главной странице -->
-            <? if ($APPLICATION->GetCurDir() != "/s2/"): ?>
+            <? if ($APPLICATION->GetCurPage(false) != "/s2/"): ?>
             
               <header>
                   <h1><? $APPLICATION->ShowTitle(false) ?></h1>
