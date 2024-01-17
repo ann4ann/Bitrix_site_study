@@ -26,7 +26,7 @@ if (!function_exists('mb_ucfirst') && function_exists('mb_substr')) {
 	$itemPosition = mb_ucfirst( $arItem['DISPLAY_PROPERTIES']['POSITION']['DISPLAY_VALUE'] ); // Первую буква должности делаем заглавной
 	$itemCompany = $arItem['DISPLAY_PROPERTIES']['COMPANY']['DISPLAY_VALUE'];
 
-	$itemImageSrc = SITE_TEMPLATE_PATH . '/img/rew/no_photo.jpg'; // Ставим default картинку, потом заменяем на нужную, если она есть
+	$itemImageSrc = SITE_TEMPLATE_PATH . '/img/rew/no_photo_left_block.jpg'; // Ставим default картинку, потом заменяем на нужную, если она есть
 	$altImg = $arItem["PREVIEW_PICTURE"]["ALT"] ?? 'img';
 
 	if( $arItem["PREVIEW_PICTURE"] )
@@ -57,7 +57,7 @@ if (!function_exists('mb_ucfirst') && function_exists('mb_substr')) {
 			<div class="inner-block">
 					<div class="title">
 						<div class="photo-block">
-							<img width=39 height=39 src="<?=$itemImageSrc?>" alt="<?=$altImg?>" />
+							<img src="<?=$itemImageSrc?>" alt="<?=$altImg?>" />
 						</div>
 
 						<!-- Имя - NAME -->

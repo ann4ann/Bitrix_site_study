@@ -5,3 +5,14 @@
 .side-block .green {
   background: linear-gradient(#e2ffe7, #00ff43);
 }
+
+.nav .menu .color-yellow{
+  color: #eeff0e;
+}
+.nav .menu .color-red{
+  color: #ff0e0e;
+}
+.nav .menu .color-green{
+  color: #22ff0e;
+}
+ 

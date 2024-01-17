@@ -29,14 +29,17 @@ IncludeTemplateLangFile(__FILE__);
                     );?>
                     <!-- Left menu -->
 
-                    <!-- side anonse -->
-                    <div class="side-block side-anonse">
-                        <div class="title-block"><span class="i i-title01"></span>Полезная информация!</div>
-                        <div class="item">
-                            <p>Клиенты предпочитают все больше эко-материалов.</p>
-                        </div>
-                    </div>
-                    <!-- /side anonse -->
+                    <!-- Полезная информация - side anonse -->
+                    <?$APPLICATION->IncludeComponent("bitrix:main.include",
+                                                     "T_side_anounce_include",
+                                                     Array(
+                                                            "AREA_FILE_SHOW" => "sect",	// Показывать включаемую область
+                                                            "AREA_FILE_SUFFIX" => "inc",	// Суффикс имени файла включаемой области
+                                                            "AREA_FILE_RECURSIVE" => "Y",	// Рекурсивное подключение включаемых областей разделов
+                                                        ),
+                                                     false
+                    );?>
+                    <!-- /Полезная информация - side anonse -->
 
                     <!-- side wrap -->
                     <div class="side-wrap">
@@ -150,14 +153,24 @@ IncludeTemplateLangFile(__FILE__);
             <nav class="main-menu">
                 <div class="item">
                     <div class="title-block">О магазине</div>
-                    <ul>
-                        <li><a href="">Отзывы</a>
-                        </li>
-                        <li><a href="">Руководство </a>
-                        </li>
-                        <li><a href="">История</a>
-                        </li>
-                    </ul>
+                    <?$APPLICATION->IncludeComponent("bitrix:menu", 
+                                                    "T_bottom", 
+                                                    Array(
+                                                        "ALLOW_MULTI_SELECT" => "N",	// Разрешить несколько активных пунктов одновременно
+                                                        "CHILD_MENU_TYPE" => "bottom_new",	// Тип меню для остальных уровней
+                                                        "DELAY" => "N",	// Откладывать выполнение шаблона меню
+                                                        "MAX_LEVEL" => "1",	// Уровень вложенности меню
+                                                        "MENU_CACHE_GET_VARS" => array(	// Значимые переменные запроса
+                                                            0 => "",
+                                                        ),
+                                                        "MENU_CACHE_TIME" => "3600",	// Время кеширования (сек.)
+                                                        "MENU_CACHE_TYPE" => "N",	// Тип кеширования
+                                                        "MENU_CACHE_USE_GROUPS" => "Y",	// Учитывать права доступа
+                                                        "ROOT_MENU_TYPE" => "bottom_new",	// Тип меню для первого уровня
+                                                        "USE_EXT" => "Y",	// Подключать файлы с именами вида .тип_меню.menu_ext.php
+                                                    ),
+                                                    false
+                    );?>
                 </div>
                 <div class="item">
                     <div class="title-block">Каталог товаров</div>
@@ -189,8 +202,11 @@ IncludeTemplateLangFile(__FILE__);
                 <div class="title-block"><?=GetMessage("CONTACT_INFO")?></div>
                 <div class="loc-block">
                     <div class="address">ул. Летняя, стр.12, офис 512</div>
-                    <div class="phone"><a href="tel:84952128506">8 (495) 212-85-06</a>
-                    </div>
+                    <?$APPLICATION->IncludeComponent("bitrix:main.include","",Array(
+                                                        "AREA_FILE_SHOW" => "file", 
+                                                        "PATH" => SITE_TEMPLATE_PATH . "/include/footer_phone.php"
+                            )
+                        );?>
                 </div>
                 <div class="main-soc-block">
                     <a href="" class="soc-item">
