@@ -35,11 +35,33 @@ if (!function_exists('mb_ucfirst') && function_exists('mb_substr')) {
 	$itemPosition = mb_ucfirst( $arItem['DISPLAY_PROPERTIES']['POSITION']['DISPLAY_VALUE'] ); // Первую буква должности делаем заглавной
 	$itemCompany = $arItem['DISPLAY_PROPERTIES']['COMPANY']['DISPLAY_VALUE'];
 
-	$itemImageSrc = $arItem["PREVIEW_PICTURE"]["SRC"] ?? (SITE_TEMPLATE_PATH . '/img/rew/no_photo.jpg');
-	$altImg = $arItem["PREVIEW_PICTURE"]["ALT"] ?? 'img';
+	// ------------ [Опционально] Проверим, есть ли no_photo.jpg в b_file.
+
+	// // 1) Создадим описание файла для проверки и записи в b_file
+	// $defaultImageFile = CFile::MakeFileArray(SITE_TEMPLATE_PATH . '/img/rew/Fetch()');
+	// $defaultImageFile["MODULE_ID"] = "main";
+
+	// // 2) Ищем его в b_file по имени
+	// $res = CFile::GetList( [], ["ORIGINAL_NAME" => "no_photo.jpg"] );
+	// $res_arr = $res->GetNext();
+	
+	// // 3) Если есть, то сохраняем ссылку, если нет, то записываем в b_file
+	// $defaultImageFileinDB = is_array($res_arr) ? $res_arr 
+	// 																					 : CFile::GetByID( CFile::SaveFile($defaultImageFile, "s2/reviews") );
+	// ------------ Конец ------------------------------
+
+	// Хардкод Id файла "no_photo.jpg" для ускорения работы
+	$defaultImageFileinDB = CFile::GetByID( 161 )->Fetch();
+
+	$itemImageFile = is_array($arItem["DETAIL_PICTURE"]) ? $arItem["DETAIL_PICTURE"] : $defaultImageFileinDB;
+	$altImg = $arItem["DETAIL_PICTURE"]["ALT"] ?? 'img';
+
+
+	$resizedImage = CFile::ResizeImageGet($itemImageFile, ["width" => 68, "height" => 50], BX_RESIZE_IMAGE_PROPORTIONAL);
+	$itemImageSrc = $resizedImage["src"];
 
 	// echo '<pre>';
-	// var_export($itemImageSrc );
+	// var_export($defaultImageFileinDB);
 	// echo '</pre>';
 	
 	$this->AddEditAction($arItem['ID'], $arItem['EDIT_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_EDIT"));

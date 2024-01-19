@@ -1,6 +1,8 @@
 <?
 $sSectionName = "Партнерам";
-$arDirProperties = Array(
-   "title" => "Партнерам"
+$arDirProperties = array(
+   "title" => "Партнерам",
+   "description" => "Партнерам. Выгодное сотрудничество с лидером отрасли.",
+   "keywords" => "партнерство, выгода, сотрудничество."
 );
 ?>

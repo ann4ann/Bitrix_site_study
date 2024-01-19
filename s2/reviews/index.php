@@ -54,7 +54,7 @@ $REVIEWS_PAGE_TITLE = Lc::getMessage("REVIEWS_PAGE_TITLE"); // Использу�
 		"LIST_FIELD_CODE" => array(
 			0 => "NAME",
 			1 => "PREVIEW_TEXT",
-			2 => "PREVIEW_PICTURE",
+			2 => "DETAIL_PICTURE",
 			3 => "DATE_ACTIVE_FROM",
 			4 => "",
 		),
