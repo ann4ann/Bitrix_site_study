@@ -44,7 +44,7 @@ if($arResult["FORM_TYPE"] == "login")
 						<input type="password" placeholder="<?=GetMessage("AUTH_PASSWORD")?>" name="USER_PASSWORD" maxlength="50" size="17" autocomplete="off" />			
 					</div>
 					<div class="frm-row">
-						<a href="<?=$arParams["FORGOT_PASSWORD_URL"]?>" class="btn-forgot">
+						<a href="<?=$arResult["AUTH_FORGOT_PASSWORD_URL"]?>" class="btn-forgot">
 							<?=GetMessage("AUTH_FORGOT_PASSWORD_2")?>
 						</a>
 					</div>
@@ -88,13 +88,15 @@ if($arResult["FORM_TYPE"] == "login")
 							</td>
 						</tr>
 					<? } ?>
+
 				</form>
 			</li>
-			<li><a href="<?=$arParams["REGISTER_URL"]?>">
+			<li><a href="<?=$arResult["AUTH_REGISTER_URL"]?>">
 				<?=GetMessage("AUTH_REGISTER")?>
 			</a></li>
 		</ul>
 	</nav>
+
 	<!-- socials -->
 	<?if($arResult["AUTH_SERVICES"]) { ?>
 		<?
@@ -111,6 +113,7 @@ if($arResult["FORM_TYPE"] == "login")
 		);
 		?>
 	<? } ?>
+
 <? } else { ?>
 	<nav class="menu-block">
 		<ul>

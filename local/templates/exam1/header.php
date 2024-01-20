@@ -62,9 +62,9 @@
                   "bitrix:system.auth.form",
                   "demo",
                   Array(
-                    "FORGOT_PASSWORD_URL" => "https://" . SITE_SERVER_NAME . "/login/?forgot_password=yes",
+                    "FORGOT_PASSWORD_URL" => "https://" . SITE_SERVER_NAME . "/login/",
                     "PROFILE_URL" => "https://" . SITE_SERVER_NAME . "/login/user.php",
-                    "REGISTER_URL" => "https://" . SITE_SERVER_NAME . "/login/?register=yes",
+                    "REGISTER_URL" => "https://" . SITE_SERVER_NAME . "/login/",
                     "SHOW_ERRORS" => "N",
                     "AUTH_SERVICES" => "Y",
                   )

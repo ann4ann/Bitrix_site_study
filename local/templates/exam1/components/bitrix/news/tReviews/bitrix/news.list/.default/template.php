@@ -57,7 +57,7 @@ if (!function_exists('mb_ucfirst') && function_exists('mb_substr')) {
 	$altImg = $arItem["DETAIL_PICTURE"]["ALT"] ?? 'img';
 
 
-	$resizedImage = CFile::ResizeImageGet($itemImageFile, ["width" => 68, "height" => 50], BX_RESIZE_IMAGE_PROPORTIONAL);
+	$resizedImage = CFile::ResizeImageGet($itemImageFile, ["width" => 68, "height" => 50], BX_RESIZE_IMAGE_EXACT);
 	$itemImageSrc = $resizedImage["src"];
 
 	// echo '<pre>';
