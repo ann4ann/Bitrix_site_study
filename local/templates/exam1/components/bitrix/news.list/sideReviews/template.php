@@ -12,41 +12,28 @@
 /** @var CBitrixComponent $component */
 $this->setFrameMode(true);
 
-if (!function_exists('mb_ucfirst') && function_exists('mb_substr')) {
-	function mb_ucfirst($string) {
-			$string = mb_strtoupper(mb_substr($string, 0, 1)) . mb_substr($string, 1);
-			return $string;
-	}
-}
-
 ?>
 
 <div class="item-wrap">
 	<div class="rew-footer-carousel">
 		<? foreach ($arResult["ITEMS"] as $arItem): 
 			
-			$itemPosition = mb_ucfirst( $arItem['DISPLAY_PROPERTIES']['POSITION']['DISPLAY_VALUE'] ); // Первую буква должности делаем заглавной
+			$itemPosition = $arItem['DISPLAY_PROPERTIES']['POSITION']['DISPLAY_VALUE'];
 			$itemCompany = $arItem['DISPLAY_PROPERTIES']['COMPANY']['DISPLAY_VALUE'];
 
-			$itemImageSrc = SITE_TEMPLATE_PATH . '/img/rew/no_photo_left_block.jpg'; // Ставим default картинку, потом заменяем на нужную, если она есть
+			#region Уменьшаем картинку на лету
+			$defaultImageSrc = SITE_TEMPLATE_PATH . '/img/rew/no_photo_left_block.jpg';
 			$altImg = $arItem["PREVIEW_PICTURE"]["ALT"] ?? 'img';
 
-			if( $arItem["PREVIEW_PICTURE"] )
-			{
-				$resizedImage = CFile::ResizeImageGet($arItem["PREVIEW_PICTURE"], ["width" => 39, "height" => 39], BX_RESIZE_IMAGE_PROPORTIONAL);
-				$resizedImageSrc = $resizedImage["src"];
-
-				if( $resizedImageSrc ) {
-					$itemImageSrc = $resizedImageSrc;
-				}
+			if( is_array($arItem["PREVIEW_PICTURE"]) ) {
+				$resizedImage = CFile::ResizeImageGet($arItem["PREVIEW_PICTURE"], ["width" => 39, "height" => 39], BX_RESIZE_IMAGE_EXACT);		
 			}
+			$itemImageSrc = $resizedImage["src"] ?? $defaultImageSrc;
+			#endregion
 
 			$substrText = TruncateText($arItem["PREVIEW_TEXT"], 150);
 
-			// echo '<pre>';
-			// var_export($itemImageSrc );
-			// echo '</pre>';
-			
+		
 			$this->AddEditAction($arItem['ID'], $arItem['EDIT_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_EDIT"));
 			$this->AddDeleteAction($arItem['ID'], $arItem['DELETE_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_DELETE"),
 																						array("CONFIRM" => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));

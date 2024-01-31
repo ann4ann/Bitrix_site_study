@@ -12,13 +12,6 @@
 /** @var CBitrixComponent $component */
 $this->setFrameMode(true);
 
-if (!function_exists('mb_ucfirst') && function_exists('mb_substr')) {
-	function mb_ucfirst($string) {
-			$string = mb_strtoupper(mb_substr($string, 0, 1)) . mb_substr($string, 1);
-			return $string;
-	}
-}
-
 ?>
 
 <?if($arParams["DISPLAY_TOP_PAGER"]):?>
@@ -27,42 +20,21 @@ if (!function_exists('mb_ucfirst') && function_exists('mb_substr')) {
 
 <? foreach ($arResult["ITEMS"] as $arItem): ?>
 	<?
-	// Форматируем дату начала активности
-	//$unixFormatDate = MakeTimeStamp( $arItem["DISPLAY_ACTIVE_FROM"], 'DD.MM.YYYY' );
-	//$itemDate = FormatDate('d F Y', $unixFormatDate) . ' ' . GetMessage('YEAR_SHORT_LETTER');
+
 	$itemDate = $arItem["DISPLAY_ACTIVE_FROM"] . ' ' . GetMessage('YEAR_SHORT_LETTER');
 
-	$itemPosition = mb_ucfirst( $arItem['DISPLAY_PROPERTIES']['POSITION']['DISPLAY_VALUE'] ); // Первую буква должности делаем заглавной
+	$itemPosition = $arItem['DISPLAY_PROPERTIES']['POSITION']['DISPLAY_VALUE']; 
 	$itemCompany = $arItem['DISPLAY_PROPERTIES']['COMPANY']['DISPLAY_VALUE'];
 
-	// ------------ [Опционально] Проверим, есть ли no_photo.jpg в b_file.
-
-	// // 1) Создадим описание файла для проверки и записи в b_file
-	// $defaultImageFile = CFile::MakeFileArray(SITE_TEMPLATE_PATH . '/img/rew/Fetch()');
-	// $defaultImageFile["MODULE_ID"] = "main";
-
-	// // 2) Ищем его в b_file по имени
-	// $res = CFile::GetList( [], ["ORIGINAL_NAME" => "no_photo.jpg"] );
-	// $res_arr = $res->GetNext();
-	
-	// // 3) Если есть, то сохраняем ссылку, если нет, то записываем в b_file
-	// $defaultImageFileinDB = is_array($res_arr) ? $res_arr 
-	// 																					 : CFile::GetByID( CFile::SaveFile($defaultImageFile, "s2/reviews") );
-	// ------------ Конец ------------------------------
-
-	// Хардкод Id файла "no_photo.jpg" для ускорения работы
-	$defaultImageFileinDB = CFile::GetByID( 161 )->Fetch();
-
-	$itemImageFile = is_array($arItem["DETAIL_PICTURE"]) ? $arItem["DETAIL_PICTURE"] : $defaultImageFileinDB;
+	#region Уменьшаем картинку на лету
+	$defaultImageSrc = SITE_TEMPLATE_PATH . '/img/rew/no_photo.jpg';
 	$altImg = $arItem["DETAIL_PICTURE"]["ALT"] ?? 'img';
 
-
-	$resizedImage = CFile::ResizeImageGet($itemImageFile, ["width" => 68, "height" => 50], BX_RESIZE_IMAGE_EXACT);
-	$itemImageSrc = $resizedImage["src"];
-
-	// echo '<pre>';
-	// var_export($defaultImageFileinDB);
-	// echo '</pre>';
+	if( is_array($arItem["DETAIL_PICTURE"]) ) {
+		$resizedImage = CFile::ResizeImageGet($arItem["DETAIL_PICTURE"], ["width" => 68, "height" => 50], BX_RESIZE_IMAGE_EXACT);		
+	}
+	$itemImageSrc = $resizedImage["src"] ?? $defaultImageSrc;
+	#endregion
 	
 	$this->AddEditAction($arItem['ID'], $arItem['EDIT_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_EDIT"));
 	$this->AddDeleteAction($arItem['ID'], $arItem['DELETE_LINK'], CIBlock::GetArrayByID($arItem["IBLOCK_ID"], "ELEMENT_DELETE"),

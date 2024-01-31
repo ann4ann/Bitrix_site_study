@@ -6,17 +6,13 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="<?=LANGUAGE_ID;?>">
 
-<head>
-  <?$APPLICATION->ShowHead();?>
+<head >
+  <?$APPLICATION->ShowHead(true);?>
   <title><?$APPLICATION->ShowTitle()?></title>
 
   <? 
-    // <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    // <meta charset="utf-8" />
-    // <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     $APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH . "/css/reset.css");
     $APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH . "/css/style.css");
     $APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH . "/css/owl.carousel.css");
@@ -26,11 +22,10 @@
     $APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH . "/js/scripts.js");
 
     $curHour = date("H", time());
-
   ?>
 
-    <link rel="icon" type="image/vnd.microsoft.icon" href="<?=$SITE_TEMPLATE_PATH?>/img/favicon.ico">
-    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<?=$SITE_TEMPLATE_PATH?>/img/favicon.ico">
+    <link rel="icon" type="image/vnd.microsoft.icon" href="<?=SITE_TEMPLATE_PATH?>/img/favicon.ico">
+    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<?=SITE_TEMPLATE_PATH?>/img/favicon.ico">
 
 </head>
 
@@ -62,9 +57,9 @@
                   "bitrix:system.auth.form",
                   "demo",
                   Array(
-                    "FORGOT_PASSWORD_URL" => "https://" . SITE_SERVER_NAME . "/login/",
-                    "PROFILE_URL" => "https://" . SITE_SERVER_NAME . "/login/user.php",
-                    "REGISTER_URL" => "https://" . SITE_SERVER_NAME . "/login/",
+                    "FORGOT_PASSWORD_URL" => "/s2/login/",
+                    "PROFILE_URL" => "/s2/login/user.php",
+                    "REGISTER_URL" => "/s2/login/",
                     "SHOW_ERRORS" => "N",
                     "AUTH_SERVICES" => "Y",
                   )

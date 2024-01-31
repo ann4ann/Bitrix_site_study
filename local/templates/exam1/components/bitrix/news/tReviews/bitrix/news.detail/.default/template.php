@@ -13,7 +13,8 @@
 $this->setFrameMode(true);
 
 
-$itemImageSrc = $arResult["DETAIL_PICTURE"]["SRC"] ?? '/local/templates/exam1/img/rew/no_photo.jpg';
+$itemImageSrc = $arResult["DETAIL_PICTURE"]["SRC"] ?? SITE_TEMPLATE_PATH . '/img/rew/no_photo.jpg';
+$altImg = $arItem["DETAIL_PICTURE"]["ALT"] ?? 'img';
 
 $itemCompany = $arResult['DISPLAY_PROPERTIES']['COMPANY']['DISPLAY_VALUE'];
 $itemPosition = $arResult['DISPLAY_PROPERTIES']['POSITION']['DISPLAY_VALUE'];
@@ -27,11 +28,20 @@ $itemDate = $arResult["DISPLAY_ACTIVE_FROM"] . ' ' . GetMessage("YEAR_SHORT_LETT
 $authorLine = "{$arResult["NAME"]}, {$itemDate}, {$itemPosition}, {$itemCompany}";
 
 $itemDocs = $arResult['DISPLAY_PROPERTIES']['DOCS'];
-$bHaveDocs = ($itemDocs != null) && (is_array($itemDocs));
+$bHaveDocs = is_array($itemDocs);
+
+// Если документов много, то они лежат в массиве. Если один, то без массива
+// Во втором случае создаём пустой массив и записываем туда первый элемент
+if ($itemDocs["FILE_VALUE"]["ID"])
+{
+	$tmp = $itemDocs["FILE_VALUE"];
+	$itemDocs["FILE_VALUE"] = [];
+	$itemDocs["FILE_VALUE"][] = $tmp;
+}
 
 echo '<pre>';
-//var_export($itemDocs);
-// var_export($bHaveDocs);
+//var_export($itemDocs); //$arResult
+//var_export($bHaveDocs);
 echo '</pre>';
 
 ?>
@@ -39,7 +49,7 @@ echo '</pre>';
 <div class="review-block">
 	<div class="review-text">
 		<div class="review-text-cont">
-			<?=($arResult["FIELDS"]["DETAIL_TEXT"] ?? '');?>
+			<?=($arResult["DETAIL_TEXT"] ?? '');?>
 		</div>
 
 		<div class="review-autor">
@@ -50,7 +60,8 @@ echo '</pre>';
 	<? // Картинка - DISPLAY_PICTURE
 	if( $arParams["DISPLAY_PICTURE"]!="N" ): ?>
 		<div style="clear: both;" class="review-img-wrap">
-				<img src="<?=$itemImageSrc?>" alt="img" />
+				<img src="<?=$itemImageSrc?>"
+						 alt="<?=$altImg?>" />
 		</div>
 	<?endif?>
 </div>

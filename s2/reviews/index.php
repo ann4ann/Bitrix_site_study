@@ -5,7 +5,6 @@ use \Bitrix\Main\Localization\Loc as Lc;
 Lc::loadMessages(__FILE__);
 
 $REVIEWS_PAGE_TITLE = Lc::getMessage("REVIEWS_PAGE_TITLE"); // Используется также в настройках для компонента ниже
-//$APPLICATION->SetTitle( $REVIEWS_PAGE_TITLE );
 
 ?>
 

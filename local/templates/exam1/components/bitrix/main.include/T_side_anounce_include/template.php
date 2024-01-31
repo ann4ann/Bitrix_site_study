@@ -14,9 +14,9 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 $this->setFrameMode(true);
 
 $filePath = $arResult["FILE"];
-$fileContent = $filePath ? file_get_contents($filePath) : null;
+$fileContent = file_get_contents($filePath);
 
-$hasContent = $fileContent ? strlen($fileContent) > 0 : false;
+$hasContent = $fileContent ? strlen(trim($fileContent)) > 0 : false;
 
 			// echo '<pre>';
 			// var_export(file_get_contents($filePath) );

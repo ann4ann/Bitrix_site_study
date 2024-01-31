@@ -5,87 +5,82 @@
 <?if (!empty($arResult)):?>
 	
 <div class="menu-block popup-wrap">
-<a href="" class="btn-menu btn-toggle"></a>
-<div class="menu popup-block">
-	<ul id="horizontal-multilevel-menu">
-		<li class="main-page"><a href="/s2/"><?=GetMessage("MAIN")?></a></li>
+	<a href="" class="btn-menu btn-toggle"></a>
+	<div class="menu popup-block">
+		<ul id="horizontal-multilevel-menu">
+			<li class="main-page"><a href="/s2/"><?=GetMessage("MAIN")?></a></li>
 
-		<?
-		$previousLevel = 0;
-		foreach($arResult as $arItem):?>
-
-			<?if ($previousLevel && $arItem["DEPTH_LEVEL"] < $previousLevel): // Закрываем предыдущий пункт меню ?>
-				<?=str_repeat("</ul></li>", ($previousLevel - $arItem["DEPTH_LEVEL"]));?>
-			<?endif?>
-
-			<!-- get classStyleValue -->
 			<?
-				$classStyle = "";
-				if (isset($arItem["PARAMS"]["CLASS_STYLE"])) {
-					$classStyle = $arItem["PARAMS"]["CLASS_STYLE"];
-				}
+			$previousLevel = 0;
+			foreach($arResult as $arItem):
+				if($arItem["PERMISSION"] == "D") 
+					continue;
 			?>
 
-			<?if ($arItem["IS_PARENT"]): // если пункт меню имеет дочерние ?>
-
-				<?if ($arItem["DEPTH_LEVEL"] == 1): // если уровень меню 1-й ?>
-
-					<li><a href="<?=$arItem["LINK"]?>" class="<?if ($arItem["SELECTED"]):?>root-item-selected
-																										<?else:?>root-item
-																										<?endif?><?=$classStyle?>"><?=$arItem["TEXT"]?></a>
-						<ul>
-				<?else: // если уровень меню больше 1-го?>
-					<li <?if ($arItem["SELECTED"]):?> class="item-selected"<?endif?>>
-						<a href="<?=$arItem["LINK"]?>" class="parent"><?=$arItem["TEXT"]?></a>
-						<ul>
+				<?if ($previousLevel && $arItem["DEPTH_LEVEL"] < $previousLevel): // Закрываем предыдущий пункт меню ?>
+					<?=str_repeat("</ul></li>", ($previousLevel - $arItem["DEPTH_LEVEL"]));?>
 				<?endif?>
 
-				<!-- ОПИСАНИЕ ДЛЯ п. меню -->
-				<?if (isset($arItem["PARAMS"]["DESCRIPTION"])):?>
-					<div class="menu-text">
-						<?=$arItem["PARAMS"]["DESCRIPTION"]?>
-					</div>
-				<?endif?>
+				<!-- get CLASS_STYLE Value -->
+				<?
+					$classStyle = $arItem["PARAMS"]["CLASS_STYLE"] ?? "";
+				?>
 
-			<?else: // если пункт меню НЕ имеет дочерние?>
+				<?if ($arItem["IS_PARENT"]): // если пункт меню имеет дочерние ?>
 
-				<?if ($arItem["PERMISSION"] > "D"): // если к пункту меню ЕСТЬ доступ?>
-
-					<?if ($arItem["DEPTH_LEVEL"] == 1): // если уровень меню 1-й?>
-
-						<li><a href="<?=$arItem["LINK"]?>" class="<?if ($arItem["SELECTED"]):?>root-item-selected
-																											<?else:?>root-item
-																											<?endif?><?=$classStyle?>"><?=$arItem["TEXT"]?></a></li>
+					<?if ($arItem["DEPTH_LEVEL"] == 1): // если уровень меню 1-й ?>
+						<li>
+							<a href="<?=$arItem["LINK"]?>" class="<?=$classStyle?>">
+								<?=$arItem["TEXT"]?>
+							</a>
+								<ul>
 					<?else: // если уровень меню больше 1-го?>
-						<li <?if ($arItem["SELECTED"]):?> class="item-selected"<?endif?>><a href="<?=$arItem["LINK"]?>"><?=$arItem["TEXT"]?></a></li>
+						<li>
+							<a href="<?=$arItem["LINK"]?>" >
+								<?=$arItem["TEXT"]?>
+							</a>
+								<ul>
 					<?endif?>
 
-				<?else: // если к пункту меню есть доступ?>
+					<!-- ОПИСАНИЕ ДЛЯ п. меню -->
+					<?if (isset($arItem["PARAMS"]["DESCRIPTION"])):?>
+						<div class="menu-text">
+							<?=$arItem["PARAMS"]["DESCRIPTION"]?>
+						</div>
+					<?endif?>
+
+				<?else: // если пункт меню НЕ имеет дочерние?>
 
 					<?if ($arItem["DEPTH_LEVEL"] == 1): // если уровень меню 1-й?>
-						<li><a href="" class="<?if ($arItem["SELECTED"]):?>root-item-selected<?else:?>root-item<?endif?>" title="<?=GetMessage("MENU_ITEM_ACCESS_DENIED")?>"><?=$arItem["TEXT"]?></a></li>
+						<li>
+							<a href="<?=$arItem["LINK"]?>" class="<?=$classStyle?>">
+								<?=$arItem["TEXT"]?>
+							</a>
+						</li>
 					<?else: // если уровень меню больше 1-го?>
-						<li><a href="" class="denied" title="<?=GetMessage("MENU_ITEM_ACCESS_DENIED")?>"><?=$arItem["TEXT"]?></a></li>
+						<li>
+							<a href="<?=$arItem["LINK"]?>">
+								<?=$arItem["TEXT"]?>
+							</a>
+						</li>
 					<?endif?>
 
 				<?endif?>
 
+				<?$previousLevel = $arItem["DEPTH_LEVEL"];?>
+
+			<?endforeach?>
+
+			<?if ($previousLevel > 1)://close last item tags?>
+				<?=str_repeat("</ul></li>", ($previousLevel-1) );?>
 			<?endif?>
 
-			<?$previousLevel = $arItem["DEPTH_LEVEL"];?>
+		</ul>
+		<div class="menu-clear-left"></div>
 
-		<?endforeach?>
-
-		<?if ($previousLevel > 1)://close last item tags?>
-			<?=str_repeat("</ul></li>", ($previousLevel-1) );?>
-		<?endif?>
-
-	</ul>
-	<div class="menu-clear-left"></div>
-
-<a href="" class="btn-close"></a>
-</div>
-<div class="menu-overlay"></div>
+		<a href="" class="btn-close"></a>
+	</div>
+	<div class="menu-overlay"></div>
 </div>
 
 <?endif?>

@@ -1,5 +1,9 @@
 <?if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 
+// echo '<pre>';
+// var_export($arResult);
+// echo '</pre>';
+
 ?>
 
 
@@ -11,21 +15,21 @@
 		<div class="menu-block">
 			<ul>
 			
-			<?
-			foreach($arResult as $arItem):
-				if($arItem["DEPTH_LEVEL"] > 1) 
-					continue;
-			?>
-				
-				<?if($arItem["SELECTED"]):?>
-					<li class="selected"><a href="<?=$arItem["LINK"]?>"><?=$arItem["TEXT"]?></a></li>
-				<?else:?>
-					<li><a href="<?=$arItem["LINK"]?>"><?=$arItem["TEXT"]?></a></li>
-				<?endif?>
-				
-			<?endforeach?>
+				<?
+				foreach($arResult as $arItem):
+					if($arItem["DEPTH_LEVEL"] > 1 || $arItem["PERMISSION"] == "D") 
+						continue;
+				?>
+					
+					<?if($arItem["SELECTED"]):?>
+						<li class="selected"><a href="<?=$arItem["LINK"]?>"><?=$arItem["TEXT"]?></a></li>
+					<?else:?>
+						<li><a href="<?=$arItem["LINK"]?>"><?=$arItem["TEXT"]?></a></li>
+					<?endif?>
+					
+				<?endforeach?>
 
-		</ul>
+			</ul>
 		</div>
 	</div> 
 <?endif?>
