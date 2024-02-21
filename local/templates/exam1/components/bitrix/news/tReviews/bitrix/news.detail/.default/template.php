@@ -72,12 +72,10 @@ if( $bHaveDocs ): ?>
 		<p>
 			<?=GetMessage("DOCS_TITLE")?>
 		</p>
-		<? foreach ($itemDocs['FILE_VALUE'] as $docFile): 
-				$docFilePath = CFile::GetPath( $docFile['ID'] );
-				?>
+		<? foreach ($itemDocs['FILE_VALUE'] as $docFile): ?>
 				<div class="exam-review-item-doc">
 					<img class="rew-doc-ico" src="<?=SITE_TEMPLATE_PATH?>/img/icons/pdf_ico_40.png">
-					<a href="<?= $docFilePath ?>">
+					<a href="<?= $docFile['SRC'] ?>">
 						<?=$docFile['ORIGINAL_NAME']?>
 					</a>
 				</div>
